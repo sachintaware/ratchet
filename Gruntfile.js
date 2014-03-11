@@ -63,10 +63,8 @@ module.exports = function(grunt) {
 
     sass: {
       options: {
-        banner: '<%= banner %>',
-        sourcemap: 'none',
-        style: 'expanded',
-        unixNewlines: true
+        outputStyle: 'expanded',
+        sourceComments: 'none'  // can be set to 'map' for sourcemaps generation
       },
       dist: {
         files: {
