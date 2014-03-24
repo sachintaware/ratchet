@@ -103,8 +103,7 @@
 
     try {
       popover = document.querySelector(anchor.hash);
-    }
-    catch (error) {
+    } catch (error) {
       popover = null;
     }
 
@@ -330,7 +329,7 @@
     swapContent(
       (activeObj.contents || activeDom).cloneNode(true),
       document.querySelector('.content'),
-      transition, function() {
+      transition, function () {
         triggerStateChange();
       }
     );
@@ -370,7 +369,11 @@
         clearTimeout(options._timeout);
       }
       if (xhr.readyState === 4) {
-        xhr.status === 200 ? success(xhr, options) : failure(options.url);
+        if (xhr.status === 200) {
+          success(xhr, options);
+        } else {
+          failure(options.url);
+        }
       }
     };
 
@@ -387,7 +390,9 @@
     cacheCurrentContent();
 
     if (options.timeout) {
-      options._timeout = setTimeout(function () {  xhr.abort('timeout'); }, options.timeout);
+      options._timeout = setTimeout(function () {
+        xhr.abort('timeout');
+      }, options.timeout);
     }
 
     xhr.send();
@@ -397,7 +402,7 @@
     }
   };
 
-  function cacheCurrentContent() {
+  function cacheCurrentContent () {
     domCache[PUSH.id] = document.body.cloneNode(true);
   }
 
@@ -472,7 +477,7 @@
         document.body.insertBefore(swap, document.querySelector('.content'));
       }
     } else {
-      enter  = /in$/.test(transition);
+      enter = /in$/.test(transition);
 
       if (transition === 'fade') {
         container.classList.add('in');
@@ -490,7 +495,9 @@
     }
 
     if (!transition) {
-      complete && complete();
+      if (complete) {
+        complete();
+      }
     }
 
     if (transition === 'fade') {
@@ -506,7 +513,9 @@
         container.parentNode.removeChild(container);
         swap.classList.remove('fade');
         swap.classList.remove('in');
-        complete && complete();
+        if (complete) {
+          complete();
+        }
       };
       container.addEventListener('webkitTransitionEnd', fadeContainerEnd);
 
@@ -518,7 +527,9 @@
         swap.classList.remove('sliding', 'sliding-in');
         swap.classList.remove(swapDirection);
         container.parentNode.removeChild(container);
-        complete && complete();
+        if (complete) {
+          complete();
+        }
       };
 
       container.offsetWidth; // force reflow
@@ -532,7 +543,9 @@
 
   var triggerStateChange = function () {
     var e = new CustomEvent('push', {
-      detail: { state: getCached(PUSH.id) },
+      detail: {
+        state: getCached(PUSH.id)
+      },
       bubbles: true,
       cancelable: true
     });
@@ -620,10 +633,18 @@
   // Attach PUSH event handlers
   // ==========================
 
-  window.addEventListener('touchstart', function () { isScrolling = false; });
-  window.addEventListener('touchmove', function () { isScrolling = true; });
+  window.addEventListener('touchstart', function () {
+    isScrolling = false;
+  });
+  window.addEventListener('touchmove', function () {
+    isScrolling = true;
+  });
   window.addEventListener('touchend', touchend);
-  window.addEventListener('click', function (e) { if (getTarget(e)) {e.preventDefault();} });
+  window.addEventListener('click', function (e) {
+    if (getTarget(e)) {
+      e.preventDefault();
+    }
+  });
   window.addEventListener('popstate', popstate);
   window.PUSH = PUSH;
 
@@ -692,7 +713,12 @@
     targetBody.classList.add(className);
   });
 
-  window.addEventListener('click', function (e) { if (getTarget(e.target)) {e.preventDefault();} });
+  window.addEventListener('click', function (e) {
+    if (getTarget(e.target)) {
+      e.preventDefault();
+    }
+  });
+
 }());
 
 /* ========================================================================
@@ -820,9 +846,7 @@
     // we're done moving
     startedMoving = false;
 
-    setSlideNumber(
-      (+new Date()) - startTime < 1000 && Math.abs(deltaX) > 15 ? (deltaX < 0 ? -1 : 1) : 0
-    );
+    setSlideNumber((+new Date()) - startTime < 1000 && Math.abs(deltaX) > 15 ? (deltaX < 0 ? -1 : 1) : 0);
 
     offsetX = slideNumber * sliderWidth;
 
@@ -830,7 +854,9 @@
     slider.style.webkitTransform = 'translate3d(' + offsetX + 'px,0,0)';
 
     e = new CustomEvent('slide', {
-      detail: { slideNumber: Math.abs(slideNumber) },
+      detail: {
+        slideNumber: Math.abs(slideNumber)
+      },
       bubbles: true,
       cancelable: true
     });
@@ -888,7 +914,10 @@
     var handleWidth = handle.clientWidth;
     var offset      = toggle.classList.contains('active') ? (toggleWidth - handleWidth) : 0;
 
-    start     = { pageX : e.touches[0].pageX - offset, pageY : e.touches[0].pageY };
+    start = {
+      pageX: e.touches[0].pageX - offset,
+      pageY: e.touches[0].pageY
+    };
     touchMove = false;
   });
 
@@ -950,7 +979,9 @@
     toggle.classList[slideOn ? 'add' : 'remove']('active');
 
     e = new CustomEvent('toggle', {
-      detail: { isActive: slideOn },
+      detail: {
+        isActive: slideOn
+      },
       bubbles: true,
       cancelable: true
     });
