@@ -10,7 +10,7 @@
 'use strict';
 var fs = require('fs');
 
-module.exports = function generateRatchiconsData() {
+module.exports = function generateRatchiconsData () {
   // Pass encoding, utf8, so `readFileSync` will return a string instead of a
   // buffer
   var ratchiconsFile = fs.readFileSync('sass/ratchicons.scss', 'utf8');

@@ -191,7 +191,7 @@
     swapContent(
       (activeObj.contents || activeDom).cloneNode(true),
       document.querySelector('.content'),
-      transition, function() {
+      transition, function () {
         triggerStateChange();
       }
     );
@@ -252,7 +252,9 @@
     cacheCurrentContent();
 
     if (options.timeout) {
-      options._timeout = setTimeout(function () {  xhr.abort('timeout'); }, options.timeout);
+      options._timeout = setTimeout(function () {
+        xhr.abort('timeout');
+      }, options.timeout);
     }
 
     xhr.send();
@@ -262,7 +264,7 @@
     }
   };
 
-  function cacheCurrentContent() {
+  function cacheCurrentContent () {
     domCache[PUSH.id] = document.body.cloneNode(true);
   }
 
@@ -337,7 +339,7 @@
         document.body.insertBefore(swap, document.querySelector('.content'));
       }
     } else {
-      enter  = /in$/.test(transition);
+      enter = /in$/.test(transition);
 
       if (transition === 'fade') {
         container.classList.add('in');
@@ -403,7 +405,9 @@
 
   var triggerStateChange = function () {
     var e = new CustomEvent('push', {
-      detail: { state: getCached(PUSH.id) },
+      detail: {
+        state: getCached(PUSH.id)
+      },
       bubbles: true,
       cancelable: true
     });
@@ -491,10 +495,18 @@
   // Attach PUSH event handlers
   // ==========================
 
-  window.addEventListener('touchstart', function () { isScrolling = false; });
-  window.addEventListener('touchmove', function () { isScrolling = true; });
+  window.addEventListener('touchstart', function () {
+    isScrolling = false;
+  });
+  window.addEventListener('touchmove', function () {
+    isScrolling = true;
+  });
   window.addEventListener('touchend', touchend);
-  window.addEventListener('click', function (e) { if (getTarget(e)) {e.preventDefault();} });
+  window.addEventListener('click', function (e) {
+    if (getTarget(e)) {
+      e.preventDefault();
+    }
+  });
   window.addEventListener('popstate', popstate);
   window.PUSH = PUSH;
 

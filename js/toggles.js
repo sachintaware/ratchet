@@ -42,7 +42,10 @@
     var handleWidth = handle.clientWidth;
     var offset      = toggle.classList.contains('active') ? (toggleWidth - handleWidth) : 0;
 
-    start     = { pageX : e.touches[0].pageX - offset, pageY : e.touches[0].pageY };
+    start = {
+      pageX: e.touches[0].pageX - offset,
+      pageY: e.touches[0].pageY
+    };
     touchMove = false;
   });
 
@@ -104,7 +107,9 @@
     toggle.classList[slideOn ? 'add' : 'remove']('active');
 
     e = new CustomEvent('toggle', {
-      detail: { isActive: slideOn },
+      detail: {
+        isActive: slideOn
+      },
       bubbles: true,
       cancelable: true
     });
